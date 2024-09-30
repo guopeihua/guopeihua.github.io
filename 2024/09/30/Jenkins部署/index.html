@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bg/favicon.jpg">
+  <link rel="icon" href="/img/bg/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="郭培华">
+  <meta name="keywords" content="生活">
+  
+    <meta name="description" content="Jenkins部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins部署">
+<meta property="og:url" content="https://blog.api-bj.top/2024/09/30/Jenkins%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="郭培华的博客">
+<meta property="og:description" content="Jenkins部署">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823017-13920330-63fa-40a7-a138-b8122f076277.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822911-d77c6182-9ef4-4636-a787-80714fc7d398.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822938-87cd4e0e-6bf6-4e05-9a70-07dea030d813.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822930-8060a82e-cb6d-4f5b-a9c3-aa95301031a9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823025-81ed1c08-71cf-4cde-9307-afe6e5677f3f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823891-886e7bb2-5ea5-4934-883a-9936f3407fb1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824481-7cc63c13-d34c-44be-92d2-fdb8c8f1e673.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824394-c8276fe9-4d31-45ec-8f93-4e7924c4c52b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824500-45f992d5-53a3-49c5-8a0a-fbd3791e330a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824459-03151b7d-bc39-48f4-a277-7729916b6ef4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824521-232633b7-ee02-47ef-83f4-cecf3d2162e5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824971-f5e2cc86-6174-4693-8917-a7321c8f5375.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825070-e57d4902-58cf-4755-be15-2c8bec80202a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825049-552e9951-7f90-45ba-96ce-17285b67849f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825100-0f6b5497-99de-4f92-9d5e-7dd602856186.png">
+<meta property="article:published_time" content="2024-09-30T14:57:44.000Z">
+<meta property="article:modified_time" content="2024-09-30T14:58:20.592Z">
+<meta property="article:author" content="郭培华">
+<meta property="article:tag" content="Jenkins">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823017-13920330-63fa-40a7-a138-b8122f076277.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+     <!-- 一言 --> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+  
+  <title>Jenkins部署 - 郭培华的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="/css/glssbg.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.api-bj.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>郭培华的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/blog.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Jenkins部署"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-30 22:57" pubdate>
+          2024年9月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          985 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Jenkins部署</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="Jenkins部署"><a href="#Jenkins部署" class="headerlink" title="Jenkins部署"></a>Jenkins部署</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><code class="hljs plain">apiVersion: apps/v1<br>kind: Deployment<br>metadata:<br>  annotations:<br>    deployment.kubernetes.io/revision: &quot;5&quot;<br>    description: &quot;&quot;<br>  creationTimestamp: &quot;2024-07-04T03:16:31Z&quot;<br>  generation: 14<br>  labels:<br>    appgroup: &quot;&quot;<br>    version: v1<br>  name: jenkins-prod<br>  namespace: jenkins<br>  resourceVersion: &quot;942871743&quot;<br>  uid: cbd5e9cc-ade3-4758-9819-341c54e27e9b<br>spec:<br>  progressDeadlineSeconds: 600<br>  replicas: 1<br>  revisionHistoryLimit: 10<br>  selector:<br>    matchLabels:<br>      app: jenkins-prod<br>      version: v1<br>  strategy:<br>    rollingUpdate:<br>      maxSurge: 25%<br>      maxUnavailable: 25%<br>    type: RollingUpdate<br>  template:<br>    metadata:<br>      creationTimestamp: null<br>      labels:<br>        app: jenkins-prod<br>        version: v1<br>    spec:<br>      containers:<br>      - env:<br>        - name: PAAS_APP_NAME<br>          value: jenkins-prod<br>        - name: PAAS_NAMESPACE<br>          value: jenkins<br>        - name: PAAS_PROJECT_ID<br>          value: 0d3e63479d00f4472f71c010ea9e185c<br>        - name: TZ<br>          value: Asia/Shanghai<br>        image: harbor.devops.kaishustory.com/kubesphere/jenkins:2.459<br>        imagePullPolicy: IfNotPresent<br>        name: jenkins-prod<br>        resources:<br>          limits:<br>            cpu: &quot;4&quot;<br>            memory: 4Gi<br>          requests:<br>            cpu: &quot;1&quot;<br>            memory: 1Gi<br>        terminationMessagePath: /dev/termination-log<br>        terminationMessagePolicy: File<br>        volumeMounts:<br>        - mountPath: /var/jenkins_home<br>          name: vol-172008326291832657<br>      dnsPolicy: ClusterFirst<br>      imagePullSecrets:<br>      - name: default-secret<br>      restartPolicy: Always<br>      schedulerName: default-scheduler<br>      securityContext: &#123;&#125;<br>      terminationGracePeriodSeconds: 30<br>      tolerations:<br>      - effect: NoSchedule<br>        key: jenkins<br>        operator: Exists<br>      volumes:<br>      - hostPath:<br>          path: /mnt/paas/jenkins/data<br>          type: &quot;&quot;<br>        name: vol-172008326291832657<br>---<br>apiVersion: v1<br>kind: Service<br>metadata:<br>  creationTimestamp: &quot;2024-07-04T03:16:31Z&quot;<br>  labels:<br>    app: jenkins-prod<br>    version: v1<br>  name: jenkins-prod<br>  namespace: jenkins<br>  resourceVersion: &quot;941708556&quot;<br>  uid: 27936243-c4fb-4afd-ad70-63863fba18b6<br>spec:<br>  clusterIP: 10.245.248.119<br>  clusterIPs:<br>  - 10.245.248.119<br>  internalTrafficPolicy: Cluster<br>  ipFamilies:<br>  - IPv4<br>  ipFamilyPolicy: SingleStack<br>  ports:<br>  - name: cce-service-0<br>    port: 8080<br>    protocol: TCP<br>    targetPort: 8080<br>  - name: cce-service-1<br>    port: 50000<br>    protocol: TCP<br>    targetPort: 50000<br>  selector:<br>    app: jenkins-prod<br>    version: v1<br>  sessionAffinity: None<br>  type: ClusterIP<br></code></pre></td></tr></table></figure>
+
+<h4 id="Apisix-域名代理"><a href="#Apisix-域名代理" class="headerlink" title="Apisix 域名代理"></a>Apisix 域名代理</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs plain">apiVersion: apisix.apache.org/v2<br>kind: ApisixRoute<br>metadata:<br>  name: jenkins.kaishujia.com<br>  namespace: jenkins<br>spec:<br>  http:<br>  - backends:<br>    - serviceName: jenkins-prod<br>      servicePort: 8080<br>    match:<br>      hosts:<br>      - jenkins.kaishujia.com<br>      paths:<br>      - /*<br>    websocket: true<br>    name: jenkins-prod<br></code></pre></td></tr></table></figure>
+
+<h4 id="阿里云域名解析"><a href="#阿里云域名解析" class="headerlink" title="阿里云域名解析"></a>阿里云域名解析</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823017-13920330-63fa-40a7-a138-b8122f076277.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="访问jenkins"><a href="#访问jenkins" class="headerlink" title="访问jenkins"></a>访问jenkins</h4><p>用户名: admin cat &#x2F;var&#x2F;jenkins_home&#x2F;secrets&#x2F;initialAdminPassword 获取密码 </p>
+<h3 id="配置凭据"><a href="#配置凭据" class="headerlink" title="配置凭据"></a>配置凭据</h3><table>
+<thead>
+<tr>
+<th align="left">用户名</th>
+<th align="left">密码</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">deploy</td>
+<td align="left">1234567890</td>
+<td>用户密码</td>
+<td>gitlab认证</td>
+</tr>
+<tr>
+<td align="left">harbor</td>
+<td align="left">Kaishu2099&#x3D;</td>
+<td>用户密码</td>
+<td>Docker hub认证</td>
+</tr>
+<tr>
+<td align="left">ks-ops-cmdb</td>
+<td align="left">c2f69d0d229d305f7b357de0ecf9f8ff55f847d5</td>
+<td>用户密码</td>
+<td>cmdb认证</td>
+</tr>
+<tr>
+<td align="left">global-kubernetes-test</td>
+<td align="left"></td>
+<td>Secret file</td>
+<td>test环境k8s config</td>
+</tr>
+<tr>
+<td align="left">global-kubernetes-gamma</td>
+<td align="left"></td>
+<td>Secret file</td>
+<td>gamma环境k8s config</td>
+</tr>
+<tr>
+<td align="left">global-kubernetes-prod</td>
+<td align="left"></td>
+<td>Secret file</td>
+<td>prod环境k8s config</td>
+</tr>
+<tr>
+<td align="left">global-kubernetes-devops</td>
+<td align="left"></td>
+<td>Secret file</td>
+<td>devops环境k8s config</td>
+</tr>
+</tbody></table>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822911-d77c6182-9ef4-4636-a787-80714fc7d398.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><ul>
+<li><strong>Blue Ocean</strong> jenkins更好看的ui</li>
+<li><strong>Git Parameter</strong> 参数化构建获取git分支</li>
+<li><strong>Active Choices</strong> 参数化构建支持调用自定义的groovy脚本</li>
+<li>**Extended Choice Parameter ** 参数化构建支持调用自定义的groovy脚本 功能更强大</li>
+<li><strong>build user vars</strong> 能够获取更多关于构建者相关的信息</li>
+<li><strong>Build Name and Description Setter</strong> 构建历史列表栏 可以自定义显示一些值 </li>
+<li><strong>Rebuilder</strong> 快速获取上次的参数化构建选中的值 </li>
+<li><strong>Pipeline: Stage View</strong> 显示pipeline的每个阶段的视图</li>
+<li><strong>Kubernetes</strong> 连接k8s的插件</li>
+<li><strong>Kubernetes CLI</strong> pipeline中基于配置文件连接k8s的插件</li>
+<li><strong>docker</strong> docker api</li>
+<li><strong>Docker Pipeline</strong> pipeline中调用 docker api</li>
+<li><strong>Locale</strong> jenkins汉化</li>
+<li>**Figlet Buildstep ** 自定义字体</li>
+<li>**HTTP Request ** http调用请求</li>
+<li><strong>Hidden Parameter</strong> 隐藏插件</li>
+<li><strong>Role-based Authorization Strategy</strong> 权限控制管理</li>
+<li>**LDAP ** Jenkins接入LDAP对用户做认证</li>
+<li>Lark Notice Plugin 飞书通知 </li>
+<li>Pipeline Utility Steps 格式化json、yaml的方法</li>
+</ul>
+<h4 id="配置插件"><a href="#配置插件" class="headerlink" title="配置插件"></a>配置插件</h4><h6 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h6><p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822938-87cd4e0e-6bf6-4e05-9a70-07dea030d813.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="Cloud-devops详细配置"><a href="#Cloud-devops详细配置" class="headerlink" title="Cloud devops详细配置"></a><strong>Cloud devops详细配置</strong></h6><p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602822930-8060a82e-cb6d-4f5b-a9c3-aa95301031a9.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="pod模板详细配置"><a href="#pod模板详细配置" class="headerlink" title="pod模板详细配置"></a><strong>pod模板详细配置</strong></h6><ul>
+<li>名称和标签列表保持统一, pipeline基于标签调度创建构建的容器</li>
+<li>容器相关配置</li>
+</ul>
+<ol>
+<li>Maven容器 用于编译java代码</li>
+<li>Jnlp容器是jenkins 容器化的slave</li>
+<li>Python容器 连接apisix对deployment的灰度配置</li>
+<li>nfs目录挂载 用于缓存maven的目录 利于maven的编译加速</li>
+<li>Image Pull Secret 用于下载镜像的认证</li>
+<li>Raw YAML for the Pod 规则是将 maven的配置文件只挂载到maven容器中 连接内网nexus</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs plain">spec:<br>  containers:<br>  - name: &quot;maven&quot;<br>    volumeMounts:<br>    - name: config-volume<br>      mountPath: /opt/apache-maven-3.5.3/conf/settings.xml<br>      subPath: settings.xml<br>  volumes:<br>    - name: config-volume<br>      configMap:<br>        name: devops-maven-setting<br>        items:<br>        - key: MavenSetting<br>          path: settings.xml<br>  securityContext:<br>    fsGroup: 1000<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823025-81ed1c08-71cf-4cde-9307-afe6e5677f3f.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="Role-based-Authorization-Strategy"><a href="#Role-based-Authorization-Strategy" class="headerlink" title="**Role-based Authorization Strategy **"></a>**Role-based Authorization Strategy **</h5><p>Dashboard 系统管理 全局安全配置 授权策略设置为插件授权</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602823891-886e7bb2-5ea5-4934-883a-9936f3407fb1.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="Global-roles"><a href="#Global-roles" class="headerlink" title="Global roles"></a><strong>Global roles</strong></h6><p>这里新建一个全局角色 为: developer 给读权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824481-7cc63c13-d34c-44be-92d2-fdb8c8f1e673.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="Item-roles"><a href="#Item-roles" class="headerlink" title="Item roles"></a><strong>Item roles</strong></h6><p>为每个目录都创建一个角色权限，方便后面关联用户、组的时候 进行分配(只给了 job的查看、构建、取消的权限)</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824394-c8276fe9-4d31-45ec-8f93-4e7924c4c52b.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="Global-roles-1"><a href="#Global-roles-1" class="headerlink" title="Global roles"></a><strong>Global roles</strong></h6><p>为用户: guopeihua 关联 developer角色 继承这个角色的权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824500-45f992d5-53a3-49c5-8a0a-fbd3791e330a.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="Item-roles-1"><a href="#Item-roles-1" class="headerlink" title="**Item roles **"></a>**Item roles **</h6><p>为用户: guopeihua 关联item role 为test-backend 就会拥有role下的job权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824459-03151b7d-bc39-48f4-a277-7729916b6ef4.png" srcset="/img/loading.gif" lazyload></p>
+<h6 id="验证"><a href="#验证" class="headerlink" title="验证"></a><strong>验证</strong></h6><p>admin视图</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824521-232633b7-ee02-47ef-83f4-cecf3d2162e5.png" srcset="/img/loading.gif" lazyload></p>
+<p>guopeihua视图</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602824971-f5e2cc86-6174-4693-8917-a7321c8f5375.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="LDAP配置"><a href="#LDAP配置" class="headerlink" title="LDAP配置"></a>LDAP配置</h5><ul>
+<li>root DN ldap的跟查询路径</li>
+<li>User search base 基础的人员查询路径</li>
+<li>User search filter 人员查询规则 按照指定字段</li>
+<li>Manager DN 超级管理员信息</li>
+<li>Manager Password 超级管理员密码</li>
+<li>Display Name LDAP attribute jenkins右上角显示的名称 displayname在ldap中 是用户的中文名称</li>
+<li>Email Address LDAP attribute 用户的邮箱</li>
+</ul>
+<p><strong>LDAP详细配置截图</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825070-e57d4902-58cf-4755-be15-2c8bec80202a.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825049-552e9951-7f90-45ba-96ce-17285b67849f.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>验证</strong></p>
+<p>用户名密码验证通过后 会返回该用户在ldap中的所在组</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1723602825100-0f6b5497-99de-4f92-9d5e-7dd602856186.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="Lark-Notice-Plugin-飞书通知"><a href="#Lark-Notice-Plugin-飞书通知" class="headerlink" title="Lark Notice Plugin 飞书通知"></a>Lark Notice Plugin 飞书通知</h5><p><strong>参考文档</strong>: <a target="_blank" rel="noopener" href="https://721806280.github.io/lark-notice-plugin-doc/guide/feature/lark/pipeline.html">https://721806280.github.io/lark-notice-plugin-doc/guide/feature/lark/pipeline.html</a></p>
+<p>安装完后 系统管理 有一个飞书的模块 在里面可以新增机器人 基于飞书函数发送消息 <font style="color:rgb(216,57,49);">以下为代码示例</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs plain">pipeline &#123;<br>    agent any<br>    stages &#123;<br>        stage(&#x27;text&#x27;)&#123;<br>            steps &#123;<br>                echo &#x27;发送文本消息...&#x27;<br>            &#125;<br>            post &#123;<br>                success &#123;<br>                    lark (<br>                        robot: &#x27;f72aa1bb-0f0b-47c7-8387-272d266dc25c&#x27;,<br>                        type: &#x27;TEXT&#x27;,<br>                        text: [<br>                            &quot;新更新提醒&quot;,<br>                            &#x27;&lt;at user_id=&quot;all&quot;&gt;所有人&lt;/at&gt;&#x27;<br>                        ]<br>                    )<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="category-chain-item">自动化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Jenkins/" class="print-no-link">#Jenkins</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Jenkins部署</div>
+      <div>https://blog.api-bj.top/2024/09/30/Jenkins部署/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>郭培华</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/30/Jenkins%E5%88%9D%E8%AF%86Pipeline%E4%B9%8B%E5%A3%B0%E6%98%8E%E5%BC%8F-%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/" title="Jenkins初识Pipeline之声明式-项目构建">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Jenkins初识Pipeline之声明式-项目构建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/30/pritunl%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%AE%A1%E7%90%86openvpn/" title="pritunl图形化管理openvpn">
+                        <span class="hidden-mobile">pritunl图形化管理openvpn</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP备1405157号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=1010502038387"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备1010502038387号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

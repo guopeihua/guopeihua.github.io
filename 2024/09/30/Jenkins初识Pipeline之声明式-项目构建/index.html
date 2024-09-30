@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bg/favicon.jpg">
+  <link rel="icon" href="/img/bg/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="郭培华">
+  <meta name="keywords" content="生活">
+  
+    <meta name="description" content="Jenkins初识Pipeline之声明式-项目构建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins初识Pipeline之声明式-项目构建">
+<meta property="og:url" content="https://blog.api-bj.top/2024/09/30/Jenkins%E5%88%9D%E8%AF%86Pipeline%E4%B9%8B%E5%A3%B0%E6%98%8E%E5%BC%8F-%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/index.html">
+<meta property="og:site_name" content="郭培华的博客">
+<meta property="og:description" content="Jenkins初识Pipeline之声明式-项目构建">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492772039-e5952e08-c942-45dc-845a-e27484f59e42.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492777290-88f387de-4984-48ef-92c8-db69ae59b172.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492797168-4ade1625-64ef-4c32-a9d2-c0c087f07135.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492802797-bb7a6423-1910-4453-aae2-6e6ba0a7e212.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492806706-fd0ab339-0a64-4109-8284-bc60aefde4a1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492811889-909e9b2b-b47b-445a-8e96-0d02aefddb41.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492816277-7dce8222-db5a-4f6c-8c01-498d7723e08d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492740951-d1a98f0b-3a36-462a-bbc1-97f5dfcdea07.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492827861-2c1359f7-4c4d-436e-b157-53dd1983a0a2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/jpeg/791267/1722492831463-e0388fd8-d9af-46b9-a7ea-6046f11d0b13.jpeg">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492839071-e11ce85b-277f-44b0-b9e8-f4b10ce38291.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492843517-d79ce2ae-c7f4-4fc2-aaa0-d959d70b094e.png">
+<meta property="article:published_time" content="2024-09-30T14:58:36.000Z">
+<meta property="article:modified_time" content="2024-09-30T14:59:11.620Z">
+<meta property="article:author" content="郭培华">
+<meta property="article:tag" content="Jenkins">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492772039-e5952e08-c942-45dc-845a-e27484f59e42.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+     <!-- 一言 --> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+  
+  <title>Jenkins初识Pipeline之声明式-项目构建 - 郭培华的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="/css/glssbg.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.api-bj.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>郭培华的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/blog.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Jenkins初识Pipeline之声明式-项目构建"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-30 22:58" pubdate>
+          2024年9月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Jenkins初识Pipeline之声明式-项目构建</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Jenkins是Devops技术栈的核心之一。CI&#x2F;CD离不开编写Pipeline脚本。 Pipeline分为 声明式、脚本式。 </p>
+<p><strong>二者的选择</strong></p>
+<blockquote>
+<p>Jenkins是使用Java实现的，所以在很早的时候就引入了groovy作为DSL，管理员可以使用groovy来实现一些自动化和高级的管理功能。因为groovy引擎已经集成到Jenkins，所以在pipeline一开始很自然就使用groovy来编写Jenkinsfile。但是groovy毕竟是一种语言，对于没有太多编程经验的小白学习成本有些高，这个时候声明式的pipeline就出现了，主要是为了降低入门的难度<br>区别如下:</p>
+</blockquote>
+<ul>
+<li>声明式pipeline，官方鼓励声明式编程模型，比较适合没有编程经验的初学者.</li>
+<li>脚本式pipeline，是基于groovy的DSL语言实现的，为Jenkins用户提供了大量的灵活性性和可扩展性，如果脚本中有大量的逻辑处理则推荐使用</li>
+</ul>
+<h2 id="声明式Pipeline-多分支"><a href="#声明式Pipeline-多分支" class="headerlink" title="声明式Pipeline&amp;多分支"></a>声明式Pipeline&amp;多分支</h2><p>构建部署模式是模仿线上环境，故使用多分支。</p>
+<p>本文主要介绍官网主推也较为简单的声明式。 声明式官方文档参考:  <a target="_blank" rel="noopener" href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/">https://www.jenkins.io/zh/doc/book/pipeline/syntax/</a><br>学习Jenkins的时候参考的博客,力推讲的非常好:  <a target="_blank" rel="noopener" href="https://wiki.eryajf.net/pages/3298.html#_1-%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E3%80%82">https://wiki.eryajf.net/pages/3298.html#_1-%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E3%80%82</a></p>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>首先安装插件 **Generic Webhook Trigger **,<strong>Pipeline</strong> 安装后重启Jenkins。</p>
+<h4 id="配置Jenkins发邮件功能。"><a href="#配置Jenkins发邮件功能。" class="headerlink" title="配置Jenkins发邮件功能。"></a>配置Jenkins发邮件功能。</h4><p><code>系统管理-&gt;系统设置-&gt;Jenkins Location</code></p>
+<ul>
+<li>首先配置系统管理员邮箱地址名称<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492772039-e5952e08-c942-45dc-845a-e27484f59e42.png" srcset="/img/loading.gif" lazyload></li>
+<li>配置发送邮箱验证信息，点击最底下可以测试。<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492777290-88f387de-4984-48ef-92c8-db69ae59b172.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<p>可以发送出测试邮箱就配置完毕了。为脚本中发送构建通知做准备。</p>
+<h3 id="配置Jenkins-WebHook功能。"><a href="#配置Jenkins-WebHook功能。" class="headerlink" title="配置Jenkins WebHook功能。"></a>配置Jenkins WebHook功能。</h3><blockquote>
+<p>功能背景: 在Dev环境，开发同学会频繁在本地修改代码并提交到git，提交后就要部署到服务器上。但是每次手工点太过麻烦，而且有的开发同学对Jenkins也没有绝对的权限，运维一般也不会管dev环境。 WebHook功能代码提交后，触发git的webhook调用Jenkins完成构建。</p>
+</blockquote>
+<h4 id="配置Jenkins"><a href="#配置Jenkins" class="headerlink" title="配置Jenkins"></a>配置Jenkins</h4><p><strong>不同Jenkins界面可能存在差异</strong><br><code>系统管理-&gt; 管理用户 -&gt; 点击超级管理员(guopeihua) -&gt; 设置</code> 添加 Api Token<br>把token复制下来，在gitee上会用<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492797168-4ade1625-64ef-4c32-a9d2-c0c087f07135.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>系统管理-&gt;安全全局配置-&gt;跨站请求伪造保护</code> 不勾选<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492802797-bb7a6423-1910-4453-aae2-6e6ba0a7e212.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="配置Gitee"><a href="#配置Gitee" class="headerlink" title="配置Gitee"></a>配置Gitee</h4><p><code>仓库页 -&gt; 管理-&gt;webhook</code><br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492806706-fd0ab339-0a64-4109-8284-bc60aefde4a1.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>添加webhook</strong><br><code>http://api-bj.top:8080/jenkins/generic-webhook-trigger/invoke?token=hello-word</code></p>
+<ul>
+<li>Jenkins外网ip地址</li>
+<li>generic-webhook-trigger&#x2F;invoke 固定的webhook触发地址</li>
+<li>?token&#x3D;xxxxxx  <code>token值与jenkins项目中Pipeline的值对应，否则会触发失败。</code><br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492811889-909e9b2b-b47b-445a-8e96-0d02aefddb41.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h3 id="Jenkins项目配置"><a href="#Jenkins项目配置" class="headerlink" title="Jenkins项目配置"></a>Jenkins项目配置</h3><p>项目主要分为三个文件:</p>
+<ul>
+<li>Dockerfile  # build image 使用</li>
+<li>config.yml  # 定义jenkins构建时使用的变量，使得jenkinsfile更加灵活</li>
+<li>Jenkinsfile # 具体构建部署的逻辑步骤</li>
+</ul>
+<h3 id="Jenkins-Job配置截图如下"><a href="#Jenkins-Job配置截图如下" class="headerlink" title="Jenkins Job配置截图如下:"></a>Jenkins Job配置截图如下:</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492816277-7dce8222-db5a-4f6c-8c01-498d7723e08d.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492740951-d1a98f0b-3a36-462a-bbc1-97f5dfcdea07.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">FROM adoptopenjdk/openjdk11:alpine-jre<br>ADD target/spring-boot-helloworld-*-SNAPSHOT.jar /applications/spring-boot-helloworld.jar<br>ENTRYPOINT [&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;/opt/java/openjdk/bin/java -jar /applications/spring-boot-helloworld.jar --server.port=80&quot;]<br></code></pre></td></tr></table></figure>
+
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="config.yml"></a>config.yml</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">GIT_URL: &quot;https://gitee.com/guopeihua/spring-boot-hello-world.git&quot; # git地址<br>DEPLOY_NAME: &quot;hello-deploy&quot; # 控制器名称<br>CONTAINER_NAME: &quot;hello&quot; # 容器名称<br>IMAGE_NAME: &quot;img_hello&quot;  # 镜像前缀<br></code></pre></td></tr></table></figure>
+
+<h3 id="Jenkinsfile"><a href="#Jenkinsfile" class="headerlink" title="Jenkinsfile"></a>Jenkinsfile</h3><p><strong>这里的一些系统级别的变量尽量使用</strong><code>$&#123;env.BRANCH_NAME&#125;</code><strong>方式调用，避免获取不到。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><code class="hljs plain">def project_name=&quot;$&#123;JOB_NAME&#125;&quot;.split(&quot;/&quot;)[1]  // 多分支的项目名称<br>def branch_name=&quot;$&#123;JOB_NAME&#125;&quot;.split(&quot;/&quot;)[2]  // 多分支的分支名称<br>def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()   // 获取项目 git地址<br><br>pipeline &#123;<br>    // 任意主机运行pipeline<br>    agent any <br><br>    // 编译的工具<br>    tools &#123;<br>        maven &#x27;mvn-3.3.9&#x27;<br>    &#125;<br><br>    // 定义全局变量<br>    environment &#123;<br>        // PIPELINE_CONFIG<br>        // BRANCH_NAME 分支名称<br>        // JOB_BASE_NAME  job名称<br>        // JOB_NAME   job 全称<br>        // WORKSPACE 构建目录<br>        // BUILD_NUMBER 构建次数<br>        // BUILD_URL 构建的url 加上 consoleText 直达文本页面<br>        BUILD_DATE = sh (script: &#x27;date &quot;+%m%d&quot;&#x27;, returnStdout: true).trim()  // 获取今天的时间 月日<br>        IMAGE_TAG = &quot;$&#123;env.BRANCH_NAME&#125;.$&#123;BUILD_DATE&#125;.$&#123;env.BUILD_NUMBER&#125;&quot;  // 镜像tag<br>        OUTPUT_URL_TEXT=&quot;$&#123;env.BUILD_URL&#125;consoleText&quot;                         // 文本url<br>    &#125;<br><br>    triggers &#123;<br>        GenericTrigger (<br>            // 构建时的标题<br>            causeString: &#x27;Triggered by $ref&#x27;,<br>            // 获取POST参数中的变量，key指的是变量名，通过$ref来访问对应的值，value指的是JSON匹配值（参考Jmeter的JSON提取器）<br>            // ref指的是推送的分支，格式如：refs/heads/master<br>            genericVariables: [[key: &#x27;ref&#x27;, value: &#x27;$.ref&#x27;],[key: &#x27;repositoryURL&#x27;, value: &#x27;$.repositoryURL&#x27;], [key: &#x27;branch&#x27;, value: &#x27;$.branch&#x27;]],<br>            // 打印获取的变量的key-value，此处会打印如：ref=refs/heads/master<br>            printContributedVariables: true,<br>            // 打印POST传递的参数<br>            printPostContent: true,<br>            // regexpFilterExpression与regexpFilterExpression成对使用<br>            // 当两者相等时，会触发对应分支的构建<br>            regexpFilterExpression: &#x27;^refs/heads/(master|production)$&#x27;,<br>            regexpFilterText: &#x27;$ref&#x27;,<br>            // 与webhook中配置的token参数值一致<br>            token: &quot;$&#123;project_name&#125;&quot;<br>    )<br>&#125;<br><br>    // 流水线阶段<br>    stages &#123;<br>        stage(&quot;下载代码&quot;)&#123;<br>            steps&#123;<br>                git credentialsId: &#x27;gitee_admin&#x27;, url: &quot;$&#123;scmUrl&#125;&quot;<br>                script &#123;<br>                    config = readYaml file: &#x27;config.yml&#x27;  // 读取config.yml<br>                    IMAGE_WHOLE_NAME =   &quot;$&#123;config.IMAGE_NAME&#125;:$&#123;IMAGE_TAG&#125;&quot;  // 定义完整的镜像名称<br>                &#125;<br>            &#125;   <br>        &#125;<br><br>        stage(&quot;编译&quot;)&#123;<br>            steps&#123;<br>                sh &quot;/usr/local/maven/bin/mvn clean package -Dfile.encoding=UTF-8 -DskipTests=true;&quot;<br>            &#125;<br>        &#125;<br><br>        stage(&quot;构建镜像&quot;)&#123;<br>            steps &#123;<br>                sh &quot;&quot;&quot;<br>                  cd $&#123;WORKSPACE&#125;<br>                  docker build -t $&#123;IMAGE_WHOLE_NAME&#125; .  <br>                &quot;&quot;&quot;<br>            &#125;<br>        &#125;<br><br>        stage(&quot;部署镜像&quot;)&#123;<br>            steps &#123;<br>                sh &quot;&quot;&quot;<br>                  kubectl set image deployment/$&#123;config.DEPLOY_NAME&#125; $&#123;config.CONTAINER_NAME&#125;=$&#123;IMAGE_WHOLE_NAME&#125;<br>                  sleep 5;<br>                &quot;&quot;&quot;<br>            &#125;<br>        &#125;<br><br><br>        stage(&#x27;判断镜像触发&#x27;) &#123;<br>            steps &#123;<br>              script &#123;<br>                  _image = sh(script: &quot;kubectl get deploy $&#123;config.DEPLOY_NAME&#125; -o jsonpath=&#x27;&#123;..image&#125;&#x27;&quot;, returnStdout: true).trim()<br>                  if ( _image == &quot;$&#123;IMAGE_WHOLE_NAME&#125;&quot; ) &#123;<br>                      echo &quot;$&#123;_image&#125; Trigger successfully.&quot;<br>                      // mail bcc: &#x27;&#x27;, body: &quot;$&#123;IMAGE_WHOLE_NAME&#125; image触发成功!&quot;, cc: &#x27;&#x27;, from: &#x27;guopeihua@ele-cloud.com&#x27;, replyTo: &#x27;&#x27;, subject: &#x27;镜像触发成功&#x27;, to: &#x27;17611443879@163.com&#x27;<br>                  &#125;else&#123;<br>                      echo &quot;$&#123;_image&#125; Triggered failed.&quot;<br>                      mail bcc: &#x27;&#x27;, body: &quot;$&#123;IMAGE_WHOLE_NAME&#125; image触发失败 退出构建!&quot;, cc: &#x27;&#x27;, from: &#x27;guopeihua@ele-cloud.com&#x27;, replyTo: &#x27;&#x27;, subject: &#x27;镜像触发失败&#x27;, to: &#x27;17611443879@163.com&#x27;<br>                      sh &#x27;exit 1&#x27;<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br><br>    &#125;<br><br>    post&#123;<br>        always&#123;<br>            // 始终都会执行<br>            script&#123;<br>                println(&#x27;构建结果&#x27;)<br>            &#125;<br>        &#125;<br>        success&#123;<br>            mail bcc: &#x27;&#x27;, body: &quot;job $&#123;env.JOB_NAME&#125;第$&#123;env.BUILD_NUMBER&#125;次构建成功! \n deploy_name: $&#123;config.DEPLOY_NAME&#125; \n URL: $&#123;OUTPUT_URL_TEXT&#125; &quot;, cc: &#x27;&#x27;, from: &#x27;guopeihua@ele-cloud.com&#x27;, replyTo: &#x27;&#x27;, subject: &#x27;[构建成功]&#x27;, to: &#x27;17611443879@163.com&#x27;<br>            script&#123;<br>             println(&#x27;success--构建成功!&#x27;)<br>             echo &quot;项目构建地址为: $&#123;OUTPUT_URL_TEXT&#125;&quot;<br>            &#125;<br>        &#125;<br>        failure&#123;<br>            mail bcc: &#x27;&#x27;, body: &quot;job $&#123;env.JOB_NAME&#125;第$&#123;env.BUILD_NUMBER&#125;次构建失败! \n deploy_name: $&#123;config.DEPLOY_NAME&#125; \n URL: $&#123;OUTPUT_URL_TEXT&#125; &quot;, cc: &#x27;&#x27;, from: &#x27;guopeihua@ele-cloud.com&#x27;, replyTo: &#x27;&#x27;, subject: &#x27;[构建失败]&#x27;, to: &#x27;17611443879@163.com&#x27;<br>            script&#123;<br>             println(&#x27;failure--构建失败!&#x27;)<br>            &#125;<br>        &#125;<br>        aborted&#123;<br>            mail bcc: &#x27;&#x27;, body: &quot;job $&#123;env.JOB_NAME&#125;第$&#123;env.BUILD_NUMBER&#125;次构建终止! \n deploy_name: $&#123;config.DEPLOY_NAME&#125; \n URL: $&#123;OUTPUT_URL_TEXT&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;guopeihua@ele-cloud.com&#x27;, replyTo: &#x27;&#x27;, subject: &#x27;[构建终止]&#x27;, to: &#x27;17611443879@163.com&#x27;<br>            script&#123;<br>             println(&#x27;aborted--构建终止!&#x27;)<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="构建的结果"><a href="#构建的结果" class="headerlink" title="构建的结果"></a>构建的结果</h3><p>Jenkins页面构建图片<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492827861-2c1359f7-4c4d-436e-b157-53dd1983a0a2.png" srcset="/img/loading.gif" lazyload><br>触发邮件截图<br><img src="https://cdn.nlark.com/yuque/0/2024/jpeg/791267/1722492831463-e0388fd8-d9af-46b9-a7ea-6046f11d0b13.jpeg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Pipeline-补充-公共Jenkinsfile"><a href="#Pipeline-补充-公共Jenkinsfile" class="headerlink" title="Pipeline 补充 公共Jenkinsfile"></a>Pipeline 补充 公共Jenkinsfile</h3><p>整体思路:  Jenkins 修改pipeline读取类型，gitee创一个库专门存放Jenkinsfile逻辑<br>操作如下:</p>
+<h4 id="config-yml-增加配置"><a href="#config-yml-增加配置" class="headerlink" title="config.yml 增加配置"></a>config.yml 增加配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain"># Jenkinsfile 存放的公共库路径<br>pipeline_template: docs/jenkins/Jenkinsfile<br>GIT_URL: &quot;https://gitee.com/guopeihua/spring-boot-hello-world.git&quot; # git地址<br>DEPLOY_NAME: &quot;hello-deploy&quot; # 控制器名称<br>CONTAINER_NAME: &quot;hello&quot; # 容器名称<br>IMAGE_NAME: &quot;img_hello&quot;  # 镜像前缀<br></code></pre></td></tr></table></figure>
+
+<p>Jenkinsfile gitee路径如下:<br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492839071-e11ce85b-277f-44b0-b9e8-f4b10ce38291.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Jenkins-Job配置"><a href="#Jenkins-Job配置" class="headerlink" title="Jenkins Job配置"></a>Jenkins Job配置</h4><p><strong>其他配置不变</strong><br><img src="https://cdn.nlark.com/yuque/0/2024/png/791267/1722492843517-d79ce2ae-c7f4-4fc2-aaa0-d959d70b094e.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="category-chain-item">自动化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Jenkins/" class="print-no-link">#Jenkins</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Jenkins初识Pipeline之声明式-项目构建</div>
+      <div>https://blog.api-bj.top/2024/09/30/Jenkins初识Pipeline之声明式-项目构建/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>郭培华</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/30/Jenkins%E9%83%A8%E7%BD%B2/" title="Jenkins部署">
+                        <span class="hidden-mobile">Jenkins部署</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP备1405157号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=1010502038387"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备1010502038387号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
